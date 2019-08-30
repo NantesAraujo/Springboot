@@ -14,8 +14,8 @@ public abstract class TopicoBuilder {
         topico1.setDataCriacao(LocalDateTime.now());
 
         Topico topico2 = new Topico();
-        topico1.setMensagem("segundo topico");
-        topico1.setDataCriacao(LocalDateTime.now());
+        topico2.setMensagem("segundo topico");
+        topico2.setDataCriacao(LocalDateTime.now());
 
         return Arrays.asList(topico1, topico2);
     }
