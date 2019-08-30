@@ -6,16 +6,18 @@ import br.com.alura.forum.model.Curso;
 import br.com.alura.forum.model.Topico;
 import br.com.alura.forum.repository.CursoRepository;
 import br.com.alura.forum.repository.TopicoRepository;
-import org.h2.command.ddl.CreateUser;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,5 +66,16 @@ public class HelloWorldControllerTest extends GenericTest {
         mockMvc.perform(get("/topicos").param("nomeCurso", "Spring Boot"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    public void devePersisitenciaDeTopico() throws Exception {
+        Topico topico = new Topico();
+
+        mockMvc.perform(post("/topicos/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(""))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
