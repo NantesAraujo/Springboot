@@ -3,20 +3,49 @@ package br.com.alura.forum.model;
 import br.com.alura.forum.enumaration.StatusTopico;
 import lombok.Data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Entity
 public class Topico {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	private Long id;
+
+	@Column
 	private String titulo;
+
+	@Column
 	private String mensagem;
+
+	@Column
 	private LocalDateTime dataCriacao = LocalDateTime.now();
+
+	@Enumerated(EnumType.STRING)
+	@Column
 	private StatusTopico status = StatusTopico.NAO_RESPONDIDO;
+
+	@ManyToOne
 	private Usuario autor;
+
+	@ManyToOne
 	private Curso curso;
+
+	@OneToMany(mappedBy = "topico")
 	private List<Resposta> respostas = new ArrayList<>();
 
 	public Topico(String titulo, String mensagem, Curso curso) {
