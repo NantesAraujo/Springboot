@@ -1,6 +1,8 @@
 package br.com.alura.forum.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,8 @@ import javax.persistence.Id;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Curso {
 
 	@Id
@@ -23,11 +27,6 @@ public class Curso {
 	@Column
 	private String categoria;
 
-	public Curso(String nome, String categoria) {
-		this.nome = nome;
-		this.categoria = categoria;
-	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

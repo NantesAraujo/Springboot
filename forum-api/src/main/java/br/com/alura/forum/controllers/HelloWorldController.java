@@ -9,7 +9,7 @@ public class HelloWorldController {
 
     @ResponseBody
     @RequestMapping(path = "/")
-    public String heloWold(){
+    public String helloWold(){
         return "Hello World Api Forum testeteste";
     }
 }
