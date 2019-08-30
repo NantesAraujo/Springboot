@@ -1,5 +1,6 @@
 package br.com.alura.forum.builders;
 
+import br.com.alura.forum.model.Curso;
 import br.com.alura.forum.model.Topico;
 
 import java.time.LocalDateTime;
@@ -18,5 +19,15 @@ public abstract class TopicoBuilder {
         topico2.setDataCriacao(LocalDateTime.now());
 
         return Arrays.asList(topico1, topico2);
+    }
+
+    public  static List<Curso> retornarListaComDoisCursos(){
+        Curso curso1 = new Curso();
+        curso1.setNome("Spring Boot");
+
+        Curso curso2 = new Curso();
+        curso2.setNome("HTML 5");
+
+        return Arrays.asList(curso1, curso2);
     }
 }
