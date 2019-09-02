@@ -2,6 +2,7 @@ package br.com.alura.forum.controllerTest;
 
 import br.com.alura.forum.builders.TopicoBuilder;
 import br.com.alura.forum.config.GenericTest;
+import br.com.alura.forum.dto.TopicoCadastroDto;
 import br.com.alura.forum.model.Curso;
 import br.com.alura.forum.model.Topico;
 import br.com.alura.forum.repository.CursoRepository;
@@ -10,7 +11,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -22,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc(webClientEnabled = true, webDriverEnabled = true)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class HelloWorldControllerTest extends GenericTest {
 
     @Autowired
@@ -43,7 +47,8 @@ public class HelloWorldControllerTest extends GenericTest {
     public void retornarQuantidadeEsperadaDeTopicos() throws Exception {
         List<Topico> topicoMocks = TopicoBuilder.retornarUmaListaComDoisTopicos();
 
-        topicoRepository.saveAll(topicoMocks);
+        topicoRepository.save(topicoMocks.get(0));
+        topicoRepository.save(topicoMocks.get(1));
 
         mockMvc.perform(get("/topicos"))
             .andExpect(status().isOk())
@@ -70,12 +75,20 @@ public class HelloWorldControllerTest extends GenericTest {
 
     @Test
     public void devePersisitenciaDeTopico() throws Exception {
-        Topico topico = new Topico();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        TopicoCadastroDto topico = new TopicoCadastroDto();
+        topico.setTitulo("JAVA 8");
+        topico.setMensagem("Estou com duvida de java");
+        topico.setNomeDoCurso("Aprendendo Java 8");
+
+
+        String objetoJson = objectMapper.writeValueAsString(topico);
 
         mockMvc.perform(post("/topicos/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(""))
+                .content(objetoJson))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 }

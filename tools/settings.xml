@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  
+  <pluginGroups>
+    
+  </pluginGroups>
+  
+  <proxies>    
+    <proxy>
+      <id>HTTP</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>proxy.sgi.ms.gov.br</host>
+      <port>8080</port>
+      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
+    </proxy>
+    <proxy>
+      <id>HTTPS</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>proxy.sgi.ms.gov.br</host>
+      <port>8080</port>
+      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
+    </proxy>
+
+  </proxies>
+
+  <servers>
+    <server>
+    </server>
+  </servers>
+  
+  <mirrors>    
+    <mirror>
+        <id>nexus</id>
+        <mirrorOf>*</mirrorOf>
+        <!-- <url>http://repo1.maven.org/maven2</url> -->
+        <url>http://repo.ms.gov.br/repository/public</url>
+    </mirror>
+    <mirror>
+        <id>snapshots</id>
+        <mirrorOf>*</mirrorOf>
+        <url>http://repo.ms.gov.br/repository/snapshots/</url>
+        <!-- <url>http://repo.ms.gov.br/repository/snapshots/</url> -->
+    </mirror> 
+  </mirrors>
+
+  
+  <profiles>
+        <profile>
+            <id>nexus</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>http://central</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>daily</updatePolicy>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>thirdparty</id>
+                    <url>http://repo.ms.gov.br/repository/thirdparty</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>http://central</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>daily</updatePolicy>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile> 
+	    <profile>
+	      <id>maven</id>
+	      <repositories>
+	        <repository>
+	          <id>maven</id>
+	          <url>http://maven.apache.org/</url>
+	        </repository>
+	      </repositories>
+	      <pluginRepositories>
+	        <pluginRepository>
+	          <id>maven</id>
+	          <url>http://maven.apache.org/</url>
+	        </pluginRepository>
+	      </pluginRepositories>
+	    </profile>
+	    <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!-- Optional URL to server. Default value is http://localhost:9000 -->
+                <sonar.host.url>
+                  http://localhost:9000
+                </sonar.host.url>
+            </properties>
+        </profile>
+  </profiles>
+<activeProfiles>
+    <activeProfile>nexus</activeProfile> 
+	<activeProfile>maven</activeProfile>
+	<activeProfile>sonar</activeProfile>
+  </activeProfiles>
+</settings>
