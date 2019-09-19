@@ -7,6 +7,7 @@ import br.com.alura.forum.model.Curso;
 import br.com.alura.forum.model.Topico;
 import br.com.alura.forum.repository.CursoRepository;
 import br.com.alura.forum.repository.TopicoRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -90,5 +91,20 @@ public class HelloWorldControllerTest extends GenericTest {
                 .content(objetoJson))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void deveRetornarUmErroDeBadRequestParaCadastroComParametrosFaltando() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Topico novoTopico = new Topico();
+
+        String jsonTopico = objectMapper.writeValueAsString(novoTopico);
+
+        mockMvc.perform(post("/topicos")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jsonTopico))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
     }
 }
