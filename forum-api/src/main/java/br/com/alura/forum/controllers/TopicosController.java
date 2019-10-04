@@ -1,17 +1,16 @@
 package br.com.alura.forum.controllers;
 
+import br.com.alura.forum.dto.AtualizarDto;
+import br.com.alura.forum.dto.DetalhesTopicoDto;
 import br.com.alura.forum.dto.TopicoCadastroDto;
 import br.com.alura.forum.dto.TopicoDto;
 import br.com.alura.forum.model.Topico;
 import br.com.alura.forum.repository.CursoRepository;
 import br.com.alura.forum.repository.TopicoRepository;
+import br.com.alura.forum.services.TopicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -27,6 +26,9 @@ public class TopicosController {
 
     @Autowired
     private CursoRepository cursoRepository;
+
+    @Autowired
+    private TopicoService topicoService;
 
     @GetMapping
     public List<TopicoDto> listar(String nomeCurso){
@@ -48,6 +50,21 @@ public class TopicosController {
 
         URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(uri).body(new TopicoDto(topico));
+    }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DetalhesTopicoDto> detalhar(@PathVariable Long id) {
+        return topicoService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TopicoDto> atualizarTopico(@PathVariable Long id, @RequestBody @Valid AtualizarDto atualizarDto){
+        return topicoService.update(id, atualizarDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> removerTopico(@PathVariable Long id){
+        return topicoService.delete(id);
     }
 }
